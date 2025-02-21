@@ -1,10 +1,19 @@
 package blogtask;
 
 public class Blog {
+    private long id;
     private String title;
     private String content;
 
     // Getter und Setter
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -22,6 +31,6 @@ public class Blog {
     }
 
     public String toString() {
-        return "Blog-Post: " + title + " - " + content;
+        return "Blog-Post: " + id + " - " + title + " - " + content;
     }
 }
