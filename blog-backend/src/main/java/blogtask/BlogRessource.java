@@ -18,6 +18,10 @@ Rest-Service for sending Blog-Posts to the "blog-topic" topic
 @Path("/blog")
 public class BlogRessource {
 
+    // ------------------------------------------------------------------
+    // First Communications Test
+    // ------------------------------------------------------------------
+
     // Topic for sending Blog-Posts
     @Channel("blog-topic")
     Emitter<String> quoteRequestEmitter;
@@ -31,19 +35,20 @@ public class BlogRessource {
     public Response sendBlogPost(Blog blog) {
         // Send the Blog-Object as String to the "blog-topic" topic
         quoteRequestEmitter.send(blog.toString());
-        System.out.println("\n>> blog-backend: Received Blog");
+        System.out.println("\n>> blog-backend: Received Blog via request");
         return Response.accepted().build();
     }
 
-    public record ValidationRequest(long id, String text) {
-    }
+    // ------------------------------------------------------------------
+    // Blog-Validation
+    // ------------------------------------------------------------------
 
     @Inject
     @Channel("validation-request")
     Emitter<ValidationRequest> validationRequEmitter;
 
     /*
-     * http http://localhost:8080/blog/addBlog title='Mein neuer Blog'
+     * http http://localhost:8080/blog/addBlog id=1 title='Mein neuer Blog'
      * content='Content meines neuen Bloges'
      */
     @POST
@@ -51,7 +56,7 @@ public class BlogRessource {
     public Response addBlog(Blog entry) {
         // Send the Blog-Object as String to the "blog-topic" topic
         validationRequEmitter.send(new ValidationRequest(entry.getId(), entry.getTitle() + " " + entry.getContent()));
-        System.out.println("\n>> blog-backend: Received Blog");
+        System.out.println("\n>> blog-backend: Received Blog via addBlog");
         return Response.accepted().build();
     }
 
