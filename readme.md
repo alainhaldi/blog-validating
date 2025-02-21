@@ -1,12 +1,9 @@
-## Full Guide
+## Start Project
 
-https://quarkus.io/guides/kafka-getting-started
+- open 2 terminals
+- start both projects:
 
-## In a nutshell
-
-- start both projects
-  mvn -f blogProjekt quarkus:dev
-  mvn -f validierungsService quarkus:dev
-
-- Visit GUI
-  http://localhost:8080/quotes.html
+  ```
+    mvn -f blog-backend quarkus:dev
+    mvn -f blog-validierung quarkus:dev
+  ```
