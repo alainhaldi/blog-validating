@@ -11,6 +11,7 @@
 ## Add Blogs via httpie
 
 - Open a new Terminal
+- **The Blogs cant have the same ID**
 
 ### Blog that passes Validation
 
@@ -21,5 +22,13 @@ http http://localhost:8080/blog/addBlog id=1 title='Mein neuer Blog' content='Co
 ### Blog that dosen't passes Validation
 
 ```
-http http://localhost:8080/blog/addBlog id=1 title='Mein neuer Blog' content='hftm sucks'
+http http://localhost:8080/blog/addBlog id=2 title='Mein neuer Blog' content='hftm sucks'
+```
+
+## List all Blogs
+
+- Every Blog that passes the validation, will have to boolean value of _true_
+
+```
+http GET http://localhost:8080/blog/listAll
 ```

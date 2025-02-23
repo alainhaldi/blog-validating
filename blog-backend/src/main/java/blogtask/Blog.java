@@ -1,9 +1,15 @@
 package blogtask;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Blog {
+    @Id
     private long id;
     private String title;
     private String content;
+    private Boolean isValidated = false;
 
     // Getter und Setter
     public long getId() {
@@ -30,7 +36,15 @@ public class Blog {
         this.content = content;
     }
 
+    public Boolean getIsValidated() {
+        return isValidated;
+    }
+
+    public void setIsValidated(Boolean isValidated) {
+        this.isValidated = isValidated;
+    }
+
     public String toString() {
-        return "Blog-Post: " + id + " - " + title + " - " + content;
+        return "\nBlog-Post: " + id + " - " + title + " - " + content + " - " + isValidated;
     }
 }

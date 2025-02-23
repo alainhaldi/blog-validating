@@ -1,22 +1,36 @@
 package blogtask;
 
+import java.util.List;
+
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
-import io.smallrye.mutiny.Multi;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.Path;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 /*
 Rest-Service for sending Blog-Posts to the "blog-topic" topic
 */
 @Path("/blog")
 public class BlogRessource {
+
+    @Inject
+    BlogService blogService;
+
+    // Gibt alle Blogs im Text Format aus, sofern das Passwort richtig ist
+    // Request: http GET http://localhost:8080/blog/listAll
+    @GET
+    @Path("listAll")
+    // @Produces(MediaType.TEXT_PLAIN)
+    public String getBlogs() {
+        List<Blog> blogs = this.blogService.getBlogs();
+        return blogs.toString();
+    }
 
     // ------------------------------------------------------------------
     // First Communications Test
@@ -40,7 +54,7 @@ public class BlogRessource {
     }
 
     // ------------------------------------------------------------------
-    // Blog-Validation
+    // Recieve Add Blog Request
     // ------------------------------------------------------------------
 
     @Inject
@@ -54,22 +68,29 @@ public class BlogRessource {
     @POST
     @Path("/addBlog")
     public Response addBlog(Blog entry) {
+        this.blogService.addBlog(entry);
         // Send the Blog-Object as String to the "blog-topic" topic
         validationRequEmitter.send(new ValidationRequest(entry.getId(), entry.getTitle() + " " + entry.getContent()));
         System.out.println("\n>> blog-backend: Received Blog via addBlog");
         return Response.accepted().build();
     }
 
-    // // Injects the quotes channel using the @Channel qualifier
-    // @Channel("validated")
-    // Multi<String> validation;
+    // ------------------------------------------------------------------
+    // Receive Validation
+    // ------------------------------------------------------------------
 
-    // @GET
-    // // Indicates that the content is sent using Server Sent Events
-    // @Produces(MediaType.SERVER_SENT_EVENTS)
-    // public Multi<String> stream() {
-    // // Returns the stream (Reactive Stream)
-    // System.out.println("\n>> blog-backend: Received Validation");
-    // return validation;
-    // }
+    @Incoming("validation-response")
+    @Transactional
+    public void sink(ValidationResponse validationResponse) {
+        System.out.println("Validation Response: " + validationResponse);
+        this.blogService.updateValidationStatus(validationResponse.id(), validationResponse.valid());
+        // Optional<Entry> entryOptional =
+        // Entry.findByIdOptional(validationResponse.id);
+        // if (entryOptional.isEmpty()) {
+        // System.out.println("Entry not found");
+        // return;
+        // }
+        // entryOptional.get().approved = validationResponse.valid;
+    }
+
 }
