@@ -1,6 +1,8 @@
-package blogtask;
+package blogtask.control;
 
 import java.util.List;
+
+import blogtask.entity.Blog;
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;

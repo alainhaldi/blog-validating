@@ -1,4 +1,4 @@
-package blogtask;
+package blogtask.boundry;
 
 import java.util.List;
 
@@ -12,6 +12,11 @@ import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+
+import blogtask.control.BlogService;
+import blogtask.entity.Blog;
+import blogtask.entity.ValidationRequest;
+import blogtask.entity.ValidationResponse;
 
 /*
 Rest-Service for sending Blog-Posts to the "blog-topic" topic

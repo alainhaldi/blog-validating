@@ -1,4 +1,4 @@
-package blogtask;
+package blogtask.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

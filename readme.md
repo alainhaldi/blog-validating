@@ -16,13 +16,13 @@
 ### Blog that passes Validation
 
 ```
-http http://localhost:8080/blog/addBlog id=1 title='Mein neuer Blog' content='Content meines neuen Bloges'
+  http http://localhost:8080/blog/addBlog id=1 title='Mein neuer Blog' content='Content meines neuen Bloges'
 ```
 
 ### Blog that dosen't passes Validation
 
 ```
-http http://localhost:8080/blog/addBlog id=2 title='Mein neuer Blog' content='hftm sucks'
+  http http://localhost:8080/blog/addBlog id=2 title='Mein neuer Blog' content='hftm sucks'
 ```
 
 ## List all Blogs
@@ -30,5 +30,5 @@ http http://localhost:8080/blog/addBlog id=2 title='Mein neuer Blog' content='hf
 - Every Blog that passes the validation, will have to boolean value of _true_
 
 ```
-http GET http://localhost:8080/blog/listAll
+  http GET http://localhost:8080/blog/listAll
 ```
