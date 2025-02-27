@@ -32,3 +32,7 @@
 ```
   http GET http://localhost:8080/blog/listAll
 ```
+
+## See Topic in GUI
+
+http://localhost:8080/q/dev-ui/io.quarkus.quarkus-kafka-client/topics
