@@ -6,6 +6,14 @@
 
 ## Containers
 
+- For Starting the Project successfully, you need to start the following Containers:
+  - Redpande
+  - MySQL
+  - Blog-Validierung
+  - Blog-Backend
+- You will find the Blog-Backend and Blog-Validierung on Github (https://github.com/alainhaldi?tab=packages)
+- You will need to create the MySQL and Redpanda Containers via the Docker Command provided in this Readme
+
 ### Redpanda (Kafka-Broker)
 
 #### Create (first time only)
