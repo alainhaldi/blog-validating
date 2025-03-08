@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Blog {
     @Id
-    private long id;
+    private Long id;
     private String title;
     private String content;
     private Boolean isValidated = false;
@@ -22,7 +22,7 @@ public class Blog {
     }
 
     // Getter und Setter
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

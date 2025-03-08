@@ -51,4 +51,37 @@ public class BlogService {
 		return blog != null;
 	}
 
+	@Transactional
+	public void updateEntireBlog(Long id, String newTitle, String newContent) {
+		Blog blog = findBlogById(id);
+		if (blog != null) {
+			blog.setTitle(newTitle);
+			blog.setContent(newContent);
+		} else {
+			Log.error("Blog with id " + id + " not found");
+		}
+	}
+
+	@Transactional
+	public void updateBlogTitle(Long id, String newTitle) {
+		Blog blog = findBlogById(id);
+		if (blog != null) {
+			blog.setTitle(newTitle);
+			Log.info("> Title von Blog " + id + " wurde mit ->" + newTitle + "<- aktualisiert.");
+		} else {
+			Log.error("Blog with id " + id + " not found");
+		}
+	}
+
+	@Transactional
+	public void updateBlogContent(Long id, String newContent) {
+		Blog blog = blogRepository.findById(id);
+		if (blog != null) {
+			blog.setContent(newContent);
+			Log.info("> Content von Blog " + id + " wurde mit ->" + newContent + "<- aktualisiert.");
+		} else {
+			Log.error("Blog with id " + id + " not found");
+		}
+	}
+
 }
