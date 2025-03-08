@@ -11,6 +11,16 @@ public class Blog {
     private String content;
     private Boolean isValidated = false;
 
+    public Blog() {
+    }
+
+    public Blog(long id, String title, String content, Boolean isValidated) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.isValidated = isValidated;
+    }
+
     // Getter und Setter
     public long getId() {
         return id;

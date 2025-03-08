@@ -59,7 +59,7 @@ public class BlogRessource {
     }
 
     // ------------------------------------------------------------------
-    // Recieve Add Blog Request
+    // Recieve Add Blog Request via HTTP
     // ------------------------------------------------------------------
 
     @Inject
