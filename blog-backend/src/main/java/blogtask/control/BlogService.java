@@ -12,7 +12,12 @@ import jakarta.transaction.Transactional;
 public class BlogService {
 
 	@Inject
-	BlogRepository blogRepository;
+	public BlogRepository blogRepository;
+
+	// Needs Constructor in order to Mock the Repository
+	public BlogService(BlogRepository blogRepository) {
+		this.blogRepository = blogRepository;
+	}
 
 	public List<Blog> getBlogs() {
 		var blogs = blogRepository.listAll();

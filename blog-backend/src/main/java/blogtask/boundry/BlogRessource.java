@@ -22,13 +22,12 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import jakarta.enterprise.inject.Produces;
+import lombok.Getter;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
 import blogtask.boundry.dto.BlogDTO;
 import blogtask.control.BlogService;
 import blogtask.entity.Blog;
@@ -107,6 +106,13 @@ public class BlogRessource {
     // ------------------------------------------------------------------
     // Default Methods
     // ------------------------------------------------------------------
+
+    // http GET http://localhost:8080/blog/hello
+    @GET
+    @Path("/hello")
+    public String hello() {
+        return "Moin Meyster!";
+    }
 
     @Inject
     BlogService blogService;
