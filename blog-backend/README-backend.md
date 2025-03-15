@@ -29,12 +29,12 @@
     docker run --name blog-backend -p 8080:8080 --network blog-nw -e KAFKA_BOOTSTRAP_SERVERS=redpanda-2:9092 -e QUARKUS_DATASOURCE_USERNAME=dbuser -e QUARKUS_DATASOURCE_PASSWORD=dbuser -e QUARKUS_DATASOURCE_JDBC_URL=jdbc:mysql://blog-mysql:3306/blogdb -d quarkus/blog-backend:latest
     ```
 
-# Testing
+# Testing-Workshop
 
 ## BlogServiceTest
 
 - In order to test the Service reliable, I used mockito. Mockito creates dummy version of the repository and makes therefore sure we can test with a isolated repository.
-- You can start the tests with
+- You can start the tests with:
 
 ```
 mvn clean test
@@ -43,7 +43,11 @@ mvn clean test
 ## BlogRessourceTest
 
 - In order to Test the Ressources, its necessarily to start first the project in the dev-mode
-- Once started, the tests can me run via the _run button_ in the File
+- Once started, the tests can me run via the _run button_ in the File or with opening a new terminal and running also:
+
+```
+mvn clean test
+```
 
 ## Test Coverage
 
@@ -52,6 +56,25 @@ mvn clean test
 
 ```
 target/jacoco-report/index.html
+```
+
+## GitHub Actions
+
+- To automate the testing process, I implemented 2 GitHub Actions.
+
+  - **Lint Code Base** -> Check if the Syntax is correct
+  - **Quarkus Dev Mode Tests** -> Starts the project in dev mode and runs all tests (BlogRessources & BlogService)
+
+- The GitHub Actions are located here:
+
+```
+.github/workflows
+```
+
+- Or on GitHub under
+
+```
+alainhaldi/blog-validating/Actions
 ```
 
 # Goals
