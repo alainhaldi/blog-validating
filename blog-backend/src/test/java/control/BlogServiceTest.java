@@ -1,7 +1,7 @@
 package control;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,16 +10,13 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import blogtask.control.BlogRepository;
 import blogtask.control.BlogService;
 import blogtask.entity.Blog;
+
 import io.quarkus.test.InjectMock;
-import io.quarkus.test.Mock;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 
 @QuarkusTest
 public class BlogServiceTest {
@@ -29,10 +26,18 @@ public class BlogServiceTest {
     BlogRepository blogRepository;
 
     private BlogService blogService;
+    private Blog blog;
 
+    // Set up the test environment
     @BeforeEach
     void setUp() {
         blogService = new BlogService(blogRepository);
+
+        // Arrange: Create a new blog object
+        blog = new Blog();
+        blog.setId(750L);
+        blog.setTitle("Test Titel");
+        blog.setContent("Test Content");
     }
 
     @Test
@@ -40,7 +45,7 @@ public class BlogServiceTest {
 
         // Define the Dummy Output (Arrange)
         when(blogRepository.findById(750L))
-                .thenReturn(new Blog(750L, "Test Titel", "Test Content", false));
+                .thenReturn(blog);
 
         // Assert
         assertEquals(blogService.findBlogById(750L).getId(), 750L);
@@ -52,7 +57,7 @@ public class BlogServiceTest {
 
         // Define the Dummy Output (Arrange)
         when(blogRepository.listAll())
-                .thenReturn(List.of(new Blog(750L, "Test Titel", "Test Content", false),
+                .thenReturn(List.of(blog,
                         new Blog(751L, "Test Titel 2", "Test Content 2", false),
                         new Blog(752L, "Test Titel 3", "Test Content 3", false)));
 
@@ -64,11 +69,6 @@ public class BlogServiceTest {
     @Test
     void testAddBlog() {
 
-        // Arrange: Create a new blog object
-        Blog blog = new Blog();
-        blog.setTitle("Test Blog");
-        blog.setContent("This is a test blog");
-
         // Act: Call the method
         blogService.addBlog(blog);
 
@@ -78,110 +78,96 @@ public class BlogServiceTest {
 
     @Test
     void testDeleteBlog() {
-
-        // Arrange: Create a new blog object
-        Blog blog = new Blog();
-        blog.setId(750L);
-        blog.setTitle("Test Blog");
-        blog.setContent("This is a test blog");
+        // Arrange: Ensure the blog exists before deletion
+        when(blogRepository.findById(750L)).thenReturn(blog);
 
         // Act: Call the method
         blogService.deleteBlog(750L);
 
-        // Assert: Verify that deleteById() was called once with the correct id
+        // Assert: Verify that deleteById() was called once with the correct ID
         verify(blogRepository, times(1)).deleteById(750L);
+
+        // Additional Check: Ensure blog no longer exists
+        when(blogRepository.findById(750L)).thenReturn(null);
+        assertEquals(null, blogRepository.findById(750L));
     }
 
     @Test
     void testUpdateValidationStatus() {
-
-        // Arrange: Create a new blog object
-        Blog blog = new Blog();
-        blog.setId(750L);
-        blog.setTitle("Test Blog");
-        blog.setContent("This is a test blog");
+        // Arrange: Mock the behavior of blogRepository.findById
+        when(blogRepository.findById(750L)).thenReturn(blog);
 
         // Act: Call the method
         blogService.updateValidationStatus(750L, true);
 
         // Assert: Verify that findById() was called once with the correct id
         verify(blogRepository, times(1)).findById(750L);
+
+        // Additional verification: Ensure the blog validation status was updated
+        assertEquals(true, blog.getIsValidated());
     }
 
     @Test
     void testContainsBlog() {
 
-        // Arrange: Create a new blog object
-        Blog blog = new Blog();
-        blog.setId(750L);
-        blog.setTitle("Test Blog");
-        blog.setContent("This is a test blog");
+        // Arrange: Mock the behavior of blogRepository.findById
+        when(blogRepository.findById(750L)).thenReturn(blog);
 
         // Act: Call the method
-        blogService.containsBlog(750L);
+        boolean result = blogService.containsBlog(750L);
+
+        // Assert: Verify the method behavior and expected return value
+        verify(blogRepository, times(1)).findById(750L);
+        assertEquals(true, result); // Expecting true since blog exists
+    }
+
+    @Test
+    void testUpdateEntireBlog() {
+
+        // Arrange: Mock the behavior of blogRepository.findById
+        when(blogRepository.findById(750L)).thenReturn(blog);
+
+        // Act: Call the method
+        blogService.updateEntireBlog(750L, "New Title", "New Content");
 
         // Assert: Verify that findById() was called once with the correct id
         verify(blogRepository, times(1)).findById(750L);
+
+        // Additional verification: Ensure the blog title and content were updated
+        assertEquals("New Title", blog.getTitle());
+        assertEquals("New Content", blog.getContent());
     }
 
-    // @Test
-    // void containsBlogTest() {
-    // // Arrange
-    // Blog blog = new Blog(904, "Testing Blog", "This is my testing blog", false);
-    // boolean containsBlog;
+    @Test
+    void testUpdateBlogTitle() {
 
-    // // Act
-    // blogService.addBlog(blog);
-    // containsBlog = blogService.containsBlog(blog.getId());
+        // Arrange: Mock the behavior of blogRepository.findById
+        when(blogRepository.findById(750L)).thenReturn(blog);
 
-    // // Assert
-    // assertEquals(true, containsBlog);
-    // }
+        // Act: Call the method
+        blogService.updateBlogTitle(750L, "New Title");
 
-    // @Test
-    // void updateEntireBlogTest() {
-    // // Arrange
-    // Blog blog = new Blog(905, "Testing Blog", "This is my testing blog", false);
-    // String newTitle = "New Title";
-    // String newContent = "New Content";
+        // Assert: Verify that findById() was called once with the correct id
+        verify(blogRepository, times(1)).findById(750L);
 
-    // // Act
-    // blogService.addBlog(blog);
-    // blogService.updateEntireBlog(blog.getId(), newTitle, newContent);
-    // Blog updatedBlog = blogService.findBlogById(blog.getId());
+        // Additional verification: Ensure the blog title was updated
+        assertEquals("New Title", blog.getTitle());
+    }
 
-    // // Assert
-    // assertEquals(newTitle, updatedBlog.getTitle());
-    // assertEquals(newContent, updatedBlog.getContent());
-    // }
+    @Test
+    void testUpdateBlogContent() {
 
-    // @Test
-    // void updateBlogTitleTest() {
-    // // Arrange
-    // Blog blog = new Blog(906, "Testing Blog", "This is my testing blog", false);
-    // String newTitle = "New Title";
+        // Arrange: Mock the behavior of blogRepository.findById
+        when(blogRepository.findById(750L)).thenReturn(blog);
 
-    // // Act
-    // blogService.addBlog(blog);
-    // blogService.updateBlogTitle(blog.getId(), newTitle);
-    // Blog updatedBlog = blogService.findBlogById(blog.getId());
+        // Act: Call the method
+        blogService.updateBlogContent(750L, "New Content");
 
-    // // Assert
-    // assertEquals(newTitle, updatedBlog.getTitle());
-    // }
+        // Assert: Verify that findById() was called once with the correct id
+        verify(blogRepository, times(1)).findById(750L);
 
-    // @Test
-    // void updateBlogContentTest() {
-    // // Arrange
-    // Blog blog = new Blog(907, "Testing Blog", "This is my testing blog", false);
-    // String newContent = "New Content";
+        // Additional verification: Ensure the blog content was updated
+        assertEquals("New Content", blog.getContent());
+    }
 
-    // // Act
-    // blogService.addBlog(blog);
-    // blogService.updateBlogContent(blog.getId(), newContent);
-    // Blog updatedBlog = blogService.findBlogById(blog.getId());
-
-    // // Assert
-    // assertEquals(newContent, updatedBlog.getContent());
-    // }
 }
