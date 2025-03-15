@@ -42,6 +42,9 @@ mvn clean test
 
 ## BlogRessourceTest
 
+- In order to Test the Ressources, its necessarily to start first the project in the dev-mode
+- Once started, the tests can me run via the _run button_ in the File
+
 ## Test Coverage
 
 - In order to know the test coverage, I made use of JaCoCo. After running the test, JaCoCo creates a report where it displays the coverages.
@@ -50,3 +53,10 @@ mvn clean test
 ```
 target/jacoco-report/index.html
 ```
+
+# Goals
+
+- Use a Test DB with Test Data instead of prod DB, but how?
+  - Already tried to config a new DB in **src/test/ressources/application.properties** but no success, its keep using the prod-DB instead of Test DB
+- Show the Test Coverage for the HTTP Test
+  - Current Problem is that these tests arent mockito test?

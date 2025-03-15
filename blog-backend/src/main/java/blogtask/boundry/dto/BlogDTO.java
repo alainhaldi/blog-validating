@@ -1,5 +1,6 @@
 package blogtask.boundry.dto;
 
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import blogtask.entity.Blog;
@@ -26,8 +27,10 @@ public class BlogDTO {
     // Mapping-Methoden
     public Blog toBlog() {
         Blog blog = new Blog();
+        blog.setId(Math.abs(UUID.randomUUID().getMostSignificantBits())); // Generate a random ID
         blog.setTitle(this.title);
         blog.setContent(this.content);
+        blog.setIsValidated(false);
         return blog;
     }
 

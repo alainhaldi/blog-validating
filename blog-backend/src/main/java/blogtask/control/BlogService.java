@@ -4,11 +4,11 @@ import java.util.List;
 
 import blogtask.entity.Blog;
 import io.quarkus.logging.Log;
-import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-@Dependent
+@ApplicationScoped
 public class BlogService {
 
 	@Inject

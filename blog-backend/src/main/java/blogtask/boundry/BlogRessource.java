@@ -144,12 +144,11 @@ public class BlogRessource {
     // Fügt einen Blog hinzu via eine Post Requests
     // Request: http POST http://localhost:8080/blog/add title="Mein neuer Blogpost"
     // content="Dies ist der Inhalt meines neuen Blogposts."
-    // publishedAt="2023-08-10"
     @POST
     @Path("/add")
     @Tag(name = "Manage Blogs")
     @Operation(description = "Add new Blog-Post.")
-    @RequestBody(content = @Content(example = "{\"title\": \"string\", \"content\": \"string\", \"publishedAt\": \"string\"}"))
+    @RequestBody(content = @Content(example = "{\"title\": \"string\", \"content\": \"string\"}"))
     @APIResponses({ @APIResponse(responseCode = "204", description = "Successful") })
     public Response addBlog(BlogDTO blogDto, @Context UriInfo uriInfo) {
         Blog blog = blogDto.toBlog();
