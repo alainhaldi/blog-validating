@@ -1,12 +1,4 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Quarkus Tests CI
+name: Quarkus Dev Mode Tests
 
 on:
   push:
@@ -15,7 +7,7 @@ on:
     branches: ["main", "feature/workshop-testing"]
 
 jobs:
-  test:
+  test-dev-mode:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,5 +21,15 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      - name: Run Maven Tests
-        run: mvn test
+      - name: Start Quarkus in Dev Mode
+        run: |
+          cd blog-backend
+          nohup mvn quarkus:dev &  # Run in background
+
+      - name: Wait for Quarkus to start
+        run: sleep 30 # Adjust time if needed
+
+      - name: Run Tests
+        run: |
+          cd blog-backend
+          mvn clean test
