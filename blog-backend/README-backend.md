@@ -77,9 +77,31 @@ target/jacoco-report/index.html
 alainhaldi/blog-validating/Actions
 ```
 
+## SonarQube
+
+[![Quality Gate Status](http://localhost:9000/api/project_badges/measure?project=ch.hftm%3Areactive-test&metric=alert_status&token=sqb_8554ac4380d71077b5687ce6d2296ad2057fe245)](http://localhost:9000/dashboard?id=ch.hftm%3Areactive-test)
+[![Coverage](http://localhost:9000/api/project_badges/measure?project=ch.hftm%3Areactive-test&metric=coverage&token=sqb_8554ac4380d71077b5687ce6d2296ad2057fe245)](http://localhost:9000/dashboard?id=ch.hftm%3Areactive-test)
+
+- Start the Docker-Container **sonarqube**
+- Open a Terminal and navigate to
+
+```
+cd blog-backend
+```
+
+- Start the Quarkus Project in Dev-Mode
+- Run the sonarqube analysis with:
+
+```
+mvn clean verify sonar:sonar -Dsonar.login=squ_7c9b40f401f7384ba8f7e1ff2a567266b6cc3c45
+```
+
+- Login to the sonarqube Webinterface here **http://localhost:9000/projects**
+- Credentials: _admin/Testing-Workshop25_
+
 # Goals
 
 - Use a Test DB with Test Data instead of prod DB, but how?
   - Already tried to config a new DB in **src/test/ressources/application.properties** but no success, its keep using the prod-DB instead of Test DB
-- Show the Test Coverage for the HTTP Test
+- Show the Test Coverage for the HTTP Test also in Jacoco
   - Current Problem is that these tests arent mockito test?
