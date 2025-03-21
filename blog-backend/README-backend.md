@@ -34,7 +34,7 @@
 ## BlogServiceTest
 
 - In order to test the Service reliable, I used mockito. Mockito creates dummy version of the repository and makes therefore sure we can test with a isolated repository.
-- You can start the tests with:
+- You can start the tests with (Make sure the Quarkus Project is run in Devmode):
 
 ```
 mvn clean test
@@ -97,7 +97,24 @@ mvn clean verify sonar:sonar -Dsonar.login=squ_7c9b40f401f7384ba8f7e1ff2a567266b
 ```
 
 - Login to the sonarqube Webinterface here **http://localhost:9000/projects**
-- Credentials: _admin/Testing-Workshop25_
+
+# Json Validation
+
+- Make sure the dependency is in your pom.xml
+
+```
+<dependency>
+  <groupId>io.rest-assured</groupId>
+  <artifactId>json-schema-validator</artifactId>
+  <version>5.5.1</version>
+</dependency>
+```
+
+- Add a Schema like **src/test/resources/schema.json**
+
+- Create a Test Class like in **src/test/java/control/BlogServiceTest.java**
+
+- Test with running mvn clean test
 
 # Goals
 
