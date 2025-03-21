@@ -49,9 +49,10 @@ mvn clean test
 mvn clean test
 ```
 
-## Test Coverage
+## JaCoCo Test Coverage
 
 - In order to know the test coverage, I made use of JaCoCo. After running the test, JaCoCo creates a report where it displays the coverages.
+  - !Note: Make sure the http requests in the test class have this structure: **.when().get("/blog/hello")** and avoid using structure inluding "http" like in **http://localhost:8080/blog/hello**. If http is included, JaCoCo wont recognize the test
 - The generated Report is located in:
 
 ```

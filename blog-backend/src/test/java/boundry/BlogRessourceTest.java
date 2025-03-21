@@ -36,7 +36,7 @@ public class BlogRessourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-                .when().get("http://localhost:8080/blog/hello")
+                .when().get("/blog/hello")
                 .then()
                 .statusCode(200)
                 .body(is("Moin Meyster!"));
@@ -45,7 +45,7 @@ public class BlogRessourceTest {
     @Test
     public void testGetBlogsEndpoint() {
         given()
-                .when().get("http://localhost:8080/blog/listAll")
+                .when().get("/blog/listAll")
                 .then()
                 .statusCode(200)
                 .body(containsString("Erster Blog"));
@@ -55,7 +55,7 @@ public class BlogRessourceTest {
     public void testGetEntriesPasswdEndpointSuccess() {
         given()
                 .header("password", "mySecretPassword")
-                .when().get("http://localhost:8080/blog/showBlogsPsswd")
+                .when().get("/blog/showBlogsPsswd")
                 .then()
                 .statusCode(200)
                 .body(containsString("Erster Blog"));
@@ -65,7 +65,7 @@ public class BlogRessourceTest {
     public void testGetEntriesPasswdEndpointDenied() {
         given()
                 .header("password", "wrongPassword")
-                .when().get("http://localhost:8080/blog/showBlogsPsswd")
+                .when().get("/blog/showBlogsPsswd")
                 .then()
                 .statusCode(401);
     }
@@ -75,7 +75,7 @@ public class BlogRessourceTest {
         given()
                 .header("Content-Type", "application/json")
                 .body("{\"title\":\"Neuer Blog\",\"content\":\"Neuer Inhalt\"}")
-                .when().post("http://localhost:8080/blog/add")
+                .when().post("/blog/add")
                 .then()
                 .statusCode(200)
                 .body(is("Neuer Blog: \"Neuer Blog\" erfolgreich hinzugefügt"));
@@ -85,7 +85,7 @@ public class BlogRessourceTest {
     public void testUpdateBlogTitleEndpointSuccess() {
         given()
                 .header("newTitle", "Neuer Titel")
-                .when().patch("http://localhost:8080/blog/updateTitle/20")
+                .when().patch("/blog/updateTitle/20")
                 .then()
                 .statusCode(200)
                 .body(is("BlogTitle erfolgreich aktualisiert \n\nNeuer Titel: Neuer Titel"));
@@ -95,7 +95,7 @@ public class BlogRessourceTest {
     public void testUpdateBlogTitleEndpointFail() {
         given()
                 .header("newTitle", "Neuer Titel")
-                .when().patch("http://localhost:8080/blog/updateTitle/200")
+                .when().patch("/blog/updateTitle/200")
                 .then()
                 .statusCode(404)
                 .body(is("Blog nicht gefunden"));
@@ -105,7 +105,7 @@ public class BlogRessourceTest {
     public void testUpdateBlogContentEndpointSuccess() {
         given()
                 .header("newContent", "Neuer Inhalt")
-                .when().patch("http://localhost:8080/blog/updateContent/20")
+                .when().patch("/blog/updateContent/20")
                 .then()
                 .statusCode(200)
                 .body(is("BlogContent erfolgreich aktualisiert \n\nNeuer Content: Neuer Inhalt"));
@@ -115,7 +115,7 @@ public class BlogRessourceTest {
     public void testUpdateBlogContentEndpointFail() {
         given()
                 .header("newContent", "Neuer Inhalt")
-                .when().patch("http://localhost:8080/blog/updateContent/200")
+                .when().patch("/blog/updateContent/200")
                 .then()
                 .statusCode(404)
                 .body(is("Blog nicht gefunden"));
@@ -126,7 +126,7 @@ public class BlogRessourceTest {
         given()
                 .header("newTitle", "Neuer Titel")
                 .header("newContent", "Neuer Inhalt")
-                .when().put("http://localhost:8080/blog/updateBlog/20")
+                .when().put("/blog/updateBlog/20")
                 .then()
                 .statusCode(200)
                 .body(is("Kompletter Blog erfolgreich ersetzt \n\nNeuer Titel: Neuer Titel"
@@ -138,7 +138,7 @@ public class BlogRessourceTest {
         given()
                 .header("newTitle", "Neuer Titel")
                 .header("newContent", "Neuer Inhalt")
-                .when().put("http://localhost:8080/blog/updateBlog/200")
+                .when().put("/blog/updateBlog/200")
                 .then()
                 .statusCode(404)
                 .body(is("Die Anfrage konnte nicht erfolgreich verarbeitet werden. Verwende eine gültige ID."));
@@ -147,7 +147,7 @@ public class BlogRessourceTest {
     @Test
     public void testDeleteBlog() {
         given()
-                .when().post("http://localhost:8080/blog/delete/30")
+                .when().post("/blog/delete/30")
                 .then()
                 .statusCode(200)
                 .body(containsString("erfolgreich gelöscht"));
